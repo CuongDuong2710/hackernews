@@ -21,11 +21,14 @@ const list = [
 ]
 
 // The function takes the searchTerm and returns another function which takes an item
-function isSearched(searchTerm) {
-  return function(item) {
+/* function isSearched(searchTerm) {
+  return function(item) { // You filter the list only when a searchTerm is set 
     return !searchTerm || item.title.toLowerCase().includes(searchTerm.toLowerCase())
   }
-}
+} */
+
+const isSearched = searchTerm => item =>
+  !searchTerm || item.title.toLowerCase().includes(searchTerm.toLowerCase())
 
 class App extends Component {
 
