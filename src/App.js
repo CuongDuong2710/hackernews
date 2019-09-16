@@ -46,7 +46,7 @@ class App extends Component {
 
   onDismiss(id) {
     const updateList = this.state.list.filter(item => item.objectID !== id)
-    this.setState({ list: updateList})
+    this.setState({ list: updateList })
   }
 
   onSearchChange(event) {
@@ -57,10 +57,12 @@ class App extends Component {
     const { searchTerm, list } = this.state
     return (
       <div className="App">
-        <Search 
+        <Search
           value={searchTerm}
           onChange={this.onSearchChange}
-        />
+        >
+          Search
+        </Search>
         <Table
           list={list}
           searchTerm={searchTerm}
@@ -73,10 +75,10 @@ class App extends Component {
 
 class Search extends Component {
   render() {
-    const { value, onChange } = this.props
+    const { value, onChange, children } = this.props
     return (
       <form>
-        <input 
+        {children} <input
           type="text"
           value={value}
           onChange={onChange}
@@ -92,7 +94,7 @@ class Table extends Component {
 
     return (
       <div>
-        {list.filter(isSearched(searchTerm)).map(item => 
+        {list.filter(isSearched(searchTerm)).map(item =>
           <div key={item.objectID}>
             <span>
               <a href={item.url}>{item.title}</a>
