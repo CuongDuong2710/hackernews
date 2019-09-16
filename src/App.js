@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import Button from './Button';
 
 const list = [
   {
@@ -103,12 +104,11 @@ class Table extends Component {
             <span>{item.num_comments}</span>
             <span>{item.points}</span>
             <span>
-              <button
+              <Button
                 onClick={() => onDismiss(item.objectID)}
-                type="button"
               >
                 Dismiss
-              </button>
+              </Button>
             </span>
           </div>
         )}
