@@ -30,18 +30,41 @@ const list = [
 const isSearched = searchTerm => item =>
   !searchTerm || item.title.toLowerCase().includes(searchTerm.toLowerCase())
 
+const DEFAULT_QUERY = 'redux'
+
+const PATH_BASE = 'https://hn.algolia.com/api/v1'
+const PATH_SEARCH = '/search'
+const PARAM_SEARCH = 'query='
+
 class App extends Component {
 
   constructor(props) {
     super(props)
 
     this.state = {
-      list,
-      searchTerm: ''
+      result: null,
+      searchTerm: DEFAULT_QUERY
     }
 
     this.onDismiss = this.onDismiss.bind(this) // the function is bound to the class => becomes a class method
     this.onSearchChange = this.onSearchChange.bind(this)
+    this.setSearchTopStories = this.setSearchTopStories.bind(this)
+    this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this)
+  }
+
+  setSearchTopStories(result) {
+    this.setState({ result })
+  }
+
+  fetchSearchTopStories(searchTerm) {
+    fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`) // https://hn.algolia.com/api/v1/search?query='redux'
+      .then(response => response.json())
+      .then(result => this.setSearchTopStories(result))
+  }
+
+  componentDidMount() {
+    const { searchTerm } = this.state
+    this.fetchSearchTopStories(searchTerm)
   }
 
   onDismiss(id) {
@@ -54,7 +77,10 @@ class App extends Component {
   }
 
   render() {
-    const { searchTerm, list } = this.state
+    const { searchTerm, result } = this.state
+
+    if (!result) return null; // first time, result is empty. Prevent to display output.
+
     return (
       <div className="App">
         <Search 
@@ -62,7 +88,7 @@ class App extends Component {
           onChange={this.onSearchChange}
         />
         <Table
-          list={list}
+          list={result.hits}
           searchTerm={searchTerm}
           onDismiss={this.onDismiss}
         />
