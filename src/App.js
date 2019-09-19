@@ -82,8 +82,6 @@ class App extends Component {
   render() {
     const { searchTerm, result } = this.state
 
-    if (!result) return null; // first time, result is empty. Prevent to display output.
-
     return (
       <div className="page">
         <div className="interactions">
@@ -94,11 +92,15 @@ class App extends Component {
             Search
         </Search>
         </div>
-        <Table
+        { result ? 
+          <Table
           list={result.hits}
           searchTerm={searchTerm}
           onDismiss={this.onDismiss}
-        />
+          />
+          : null
+        }
+        
       </div>
     );
   }
