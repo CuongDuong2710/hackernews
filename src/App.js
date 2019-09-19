@@ -92,13 +92,12 @@ class App extends Component {
             Search
         </Search>
         </div>
-        { result ? 
+        { result &&
           <Table
           list={result.hits}
           searchTerm={searchTerm}
           onDismiss={this.onDismiss}
           />
-          : null
         }
         
       </div>
