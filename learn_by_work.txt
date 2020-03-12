@@ -141,11 +141,22 @@ this.state = {
 // the function is bound to the class => becomes a class method
 this.onDismiss = this.onDismiss.bind(this)
 
-9. Destructing
+9. DESTRUCTING
 
+_ Object
 const { searchTerm, list } = this.state
 
-10. Condition
+_ Array
+const users = ['Robin', 'Andrew', 'Dan'];
+const [
+	userOne,
+	userTwo,
+	userThree
+] = users;
+console.log(userOne, userTwo, userThree);
+// output: Robin Andrew Dan
+
+10. CONDITION
 
 + 1st
 
@@ -153,7 +164,7 @@ result ? <Table /> : null
 
 result && <Table />
 
-11. ES6 Classes
+11. ES6 CLASSES
 
 + Even though React embraces functional programming, for instance with immutable data structures,
 classes are used to declare components. They are called ES6 class components. 
@@ -186,3 +197,134 @@ class App extends Component {
 + 'App' inherits functionalities from the Component class, extend a basic ES6 class to a ES6 component class.
 + The methods a React Component exposes is the public interface. One of these methods has to be overwritten,
 the others don’t need to be overwritten.
+
+12. INTERNAL COMPONENT STATE
+
++ Internal component state allows you to store, modify and delete properties of your component.
++  The ES6 class component can use a constructor to initialize internal component state. The constructor is
+called only once when the component initializes.
+
+class App extends Component {
+	constructor(props) {
+		super(props);
+		
+		this.state = {
+			list: list,
+		};
+	}
+	...
+}
+
++ Note that you have to call super(props); to call the constructor of the extended Component class.
+It’s mandatory, because it sets this.props in your constructor.
++ The state is bound to the class with the this object.
++ Every time you change your component state, the render() method of your component will run again.
+
+NOTE:  Don’t mutate the state directly. You have to use a method called setState() to modify your state.
+
+13. ES6 OBJECT INITIALIZER
+
++ You can initialize methods in an object
+
+// ES6
+const userService = {
+	getUserName(user) {
+		return user.firstname + ' ' + user.lastname;
+	},
+};
+
+14. FILTER
+
++ The filter function takes a function to evaluate each item in the list. 
+If the evaluation for an item is true, the item stays in the list. Otherwise it will get removed. 
+Additionally the function returns a new list and doesn’t mutate the old list.
+
+Example:
+
+var ages = [32, 33, 16, 40];
+
+function checkAdult(age) {
+  return age >= 18;
+}
+
+function myFunction() {
+  document.getElementById("demo").innerHTML = ages.filter(checkAdult);
+}
+
+>>> 32,33,40
+
+15. HIGH ORDER FUNCTION
+
++ We have to pass the searchTerm to the filter function and have to return a new function to evaluate the
+condition. That’s called a higher order function
+
+list.filter(isSearched(searchTerm))
+
+function isSearched(searchTerm) {
+	return function(item) {
+		return !searchTerm || // You filter the list only when a searchTerm is set, else return all list
+			item.title.toLowerCase().includes(searchTerm.toLowerCase());
+	}
+}
+
+16. PROPS
+
++ The props - short form for properties - have all the values you have passed to the components when
+you used them in your App component. You could reuse these components somewhere else but pass them different values.
+They are reusable.
+
++  After all it is not only text that you can pass as children. You can pass an element and element trees 
+(which can be encapsulated by components again) as children.
+
+17. DEFAULT PARAMETER
+
+class Button extends Component {
+	render() {
+		const {
+			onClick,
+			className = '',
+			children,
+		} = this.props;
+		...
+	}
+}
+
+Now, whenever there is no className property, the value will be an empty string.
+
+18. COMPONENT DECLARATIONS
+
+_ Functional Stateless Components: 
++ Which get an input and return an output. The input is the props object.
+The output is a component instance.
++ Functional stateless components are functions (functional) and they have no internal state (stateless)
++ Additionally they have no lifecycle methods.
+
+_ ES6 Class Components:
++ They extend from the React component. The extend hooks all the lifecycle methods
+- available in the React component API - to the component. 
++ You can store and manipulate state in ES6 class components
+
+Ex:
+function Search({ value, onChange, children }) {
+	return (
+		<form>
+			{children} <input
+				type="text"
+				value={value}
+				onChange={onChange}
+			/>
+		</form>
+	);
+}
+
+const Search = ({ value, onChange, children }) =>
+	<form>
+	{children} <input
+		type="text"
+		value={value}
+		onChange={onChange}
+		/>
+	</form>
+
+
+
