@@ -1,0 +1,188 @@
+1. Sử dụng prevState có hai cách
+
+_ Một là khai báo một biến riêng lưu lại
+
+handleOpenActions () {
+    let openContextMenu = this.state.openContextMenu // khai báo riêng
+    this.setState({
+      openContextMenu: !openContextMenu
+    })
+}
+  
+_ Hai là dùng prevState
+handleOpenActions () {
+	this.setState((prevState) => ({ isOpenNoteAction: !prevState.isOpenNoteAction}))
+}
+
+2. TypeError: this.setState is not a function
+
+_ Nhớ bind(this) hàm trong constructor
+
+3. Sử dụng map
+
++ enables you to iterate over your list of items to display them
++ convert one list of items to another list of items. Ex: convert a list of item to HTML elements.
++ add key attribute to list item. Only that way React is able to identify added, changed and removed items when the
+list changes.
++ You should make sure that the key attribute is a stable identifier. Don’t make the mistake of using the item index 
+in the array. The array index isn’t stable at all.
+
+// Do this
+{list.map(function (item) {
+    return (
+		<div key={item.objectID}> // add key attribute to list item
+		  <span>
+			<a href={item.url}>{item.title}</a>
+		  </span>
+		  <span>{item.author}</span>
+		  <span>{item.num_comments}</span>
+		  <span>{item.points}</span>
+		</div>
+	)
+})}
+
+// Don't do this
+{ list.map(function(item, key) {
+	return (
+		<div key={key}>
+		...
+		</div>
+	);
+})}
+
+4. Sử dụng arrow function
+
+// function expression
+function () { ... }
+
+// arrow function expression
+() => { ... }
+
++ You can remove the parenthesis when the function gets only one argument
+// allowed
+item => { ... }
+
+// allowed
+(item) => { ... }
+
+// not allowed
+item, key => { ... }
+
+// allowed
+(item, key) => { ... }
+
+{list.map(function (item) {
+    return (
+		<div key={item.objectID}>
+		
+{list.map(item => {
+	return (
+		<div key={item.objectID}>
+		...
+	)}}
+	
+_ Can remove block body and return statement.  In a concise body an implicit
+return is attached thus you can remove the return statement
+
+{list.map(item =>
+		<div key={item.objectID}>
+		...
+	)}}
+	
+5. ES6 const and let
+
+_ A variable declared with 'const' cannot be re-assigned or re-declared. It cannot get mutated (changed, modifield)
+
+const hello = 'ReactJS'
+hello = 'bye bye' > Uncaught TypeError: Assignment to constant variable.
+
+_ A variable declared with let can get mutated.
+
+let abc = 'React Native'
+abc = 'Flutter' > Flutter
+
+Note: When the variable is an array or object, the value it holds can get altered.
+
+const example = {
+    text: 'Welcome to React'
+}
+
+example.text > "Welcome to React"
+example.text = 'Say hi'
+example.text > "Say hi"
+
+_ In your application, you should use const over var.
+
+6. ReactDOM
+
+ReactDOM.render(
+	<App />,
+	document.getElementById('root')
+);
+
+_ ReactDOM.render() uses a DOM node in your HTML to replace it with your JSX.
+_ ReactDOM.render() expects two arguments:
++ The first argument is JSX that gets rendered.
++  The second argument specifies the place where the React application hooks into your HTML.
+It expects an element with an id='root'. 
+
+7. Key and variable share the same name
+
+this.state = {
+	list: list
+}
+
+this.state = {
+	list
+}
+
+8. Bind(this)
+
+// the function is bound to the class => becomes a class method
+this.onDismiss = this.onDismiss.bind(this)
+
+9. Destructing
+
+const { searchTerm, list } = this.state
+
+10. Condition
+
++ 1st
+
+result ? <Table /> : null
+
+result && <Table />
+
+11. ES6 Classes
+
++ Even though React embraces functional programming, for instance with immutable data structures,
+classes are used to declare components. They are called ES6 class components. 
+
+class Developer {
+	constructor(firstname, lastname) {
+		this.firstname = firstname;
+		this.lastname = lastname;
+	}
+	getName() {
+		return this.firstname + ' ' + this.lastname;
+	}
+}
+
++ A class has a constructor to make it instantiable. The constructor can take arguments to assign it to
+the class instance. Additionally a class can define functions. 
++  Because the function is associated with a class, it is called a method.
++ You can create multiple instances of the class by invoking it
+
+_ Extends 'Component':
+
+import React, { Component } from 'react';
+...
+class App extends Component {
+	render() {
+	...
+	}
+}
+
++ 'App' inherits functionalities from the Component class, extend a basic ES6 class to a ES6 component class.
++ The methods a React Component exposes is the public interface. One of these methods has to be overwritten,
+the others don’t need to be overwritten.
