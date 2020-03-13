@@ -220,7 +220,7 @@ It’s mandatory, because it sets this.props in your constructor.
 + The state is bound to the class with the this object.
 + Every time you change your component state, the render() method of your component will run again.
 
-NOTE:  Don’t mutate the state directly. You have to use a method called setState() to modify your state.
+*** NOTE:  Don’t mutate the state directly. You have to use a method called setState() to modify your state.
 
 13. ES6 OBJECT INITIALIZER
 
@@ -390,6 +390,87 @@ perform further asynchronous requests.
 • componentWillUnmount() - It is called before you destroy your component. You can use the
 lifecycle method to perform any clean up tasks.
 
+21. TEMPLATE STRING
+
+_ Use to concatenate strings
+// ES6
+const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`;
+
+22. FETCHING DATA
+
+_ Use native 'fetch' function
+
+this.state = {
+	result: null,
+	searchTerm: 'redux',
+};
+
+setSearchTopstories(result) {
+	this.setState({ result });
+}
+
+fetchSearchTopstories(searchTerm) {
+	fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`)
+	.then(response => response.json())
+	.then(result => this.setSearchTopstories(result));
+}
+
+componentDidMount() {
+	const { searchTerm } = this.state;
+	this.fetchSearchTopstories(searchTerm);
+}
+
+1st. Use the componentDidMount() lifecycle method to fetch the data after the component
+did mount.
+2nd. The native fetch is used. The url is the argument for the native fetch API function. The response needs to get
+transformed to json, that’s a mandatory step in a native fetch, and can finally be set in the internal component state.
 
 
+23. OBJECT ASSIGN
 
+_ React embraces functional programming. Thus you shouldn’t mutate an object (or mutate the state
+directly). A better approach is to generate a new object based on information you have.
+You will always return a new object and never alter an object.
+
++ ES5
+_ Object.assign() takes as first argument a target object. All following arguments are source objects. 
+These objects are merged into the target object. The target object can be an empty object. 
+
+const updatedHits = { hits: updatedHits };
+const updatedResult = Object.assign({}, this.state.result, updatedHits);
+
+24. SPREAD OPERATOR IN ES6
+
+_ Spread operator ->  It only consists of three dots: ... When it is used, every value
+from an array or object gets copied to another array or object.
+
+--- Variable
+const userList = ['Robin', 'Andrew', 'Dan'];
+const additionalUser = 'Jordan';
+const allUsers = [ ...userList, additionalUser ];
+console.log(allUsers);
+// output: ['Robin', 'Andrew', 'Dan', 'Jordan']
+-> The 'allUsers' variable is a completely new array. 
+
+--- Array
+const oldUsers = ['Robin', 'Andrew'];
+const newUsers = ['Dan', 'Jordan'];
+const allUsers = [ ...oldUsers, ...newUsers ];
+console.log(allUsers);
+// output: ['Robin', 'Andrew', 'Dan', 'Jordan']
+
+--- Object -> It copies each key value pair into a new object.
+
+Ex1:
+const userNames = { firstname: 'Robin', lastname: 'Wieruch' };
+const age = 28;
+const user = { ...userNames, age };
+console.log(user);
+// output: { firstname: 'Robin', lastname: 'Wieruch', age: 28 }
+
+Ex2:
+const userNames = { firstname: 'Robin', lastname: 'Wieruch' };
+const userAge = { age: 28 };
+const user = { ...userNames, ...userAge };
+console.log(user);
+// output: { firstname: 'Robin', lastname: 'Wieruch', age: 28 }
