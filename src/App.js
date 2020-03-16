@@ -33,7 +33,7 @@ function isSearched(searchTerm) {
 
 const DEFAULT_QUERY = 'redux'
 const DEFAULT_PAGE = 0
-const DEFAULT_HPP = '100'
+const DEFAULT_HPP = '50'
 
 const PATH_BASE = 'https://hn.algolia.com/api/v1'
 const PATH_SEARCH = '/search'
@@ -47,10 +47,12 @@ class App extends Component {
     super(props)
 
     this.state = {
-      result: null,
+      results: null,
+      searchKey: '',
       searchTerm: DEFAULT_QUERY
     }
 
+    this.needToSearchTopstories = this.needToSearchTopstories.bind(this)
     this.onDismiss = this.onDismiss.bind(this) // the function is bound to the class => becomes a class method
     this.onSearchChange = this.onSearchChange.bind(this)
     this.setSearchTopStories = this.setSearchTopStories.bind(this)
@@ -58,12 +60,17 @@ class App extends Component {
     this.onSearchSubmit = this.onSearchSubmit.bind(this)
   }
 
+  needToSearchTopstories(searchTerm) {
+    return !this.state.results[searchTerm]
+  }
+
   setSearchTopStories(result) {
     const { hits, page } = result
+    const { searchKey, results } = this.state
 
-    // check if there are already old hits
-    const oldHits = page !== 0 // page = 0 -> it is a new search request, hits are empty. When click 'More' button, page != 0 -> save current hits to oldHits
-      ? this.state.result.hits
+    // check if there are already old hits from 'results' with 'searchKey' as key
+    const oldHits = results && results[searchKey]
+      ? results[searchKey].hits
       : []
 
     const updateHits = [ // merge old and new data
@@ -72,7 +79,10 @@ class App extends Component {
     ]
 
     this.setState({
-      result: { hits: updateHits, page }
+      results: {
+        ...results,
+        [searchKey]: {hits: updateHits, page }  
+      }
     })
   }
 
@@ -84,13 +94,22 @@ class App extends Component {
 
   componentDidMount() {
     const { searchTerm } = this.state
+    this.setState({ searchKey: searchTerm })
     this.fetchSearchTopStories(searchTerm, DEFAULT_PAGE)
   }
 
   onDismiss(id) {
-    const updateList = this.state.result.hits.filter(item => item.objectID !== id)
-    this.setState({ 
-      result: { ...this.state.result, hits: updateList }
+    const { searchKey, results } = this.state
+    const { hits, page } = results[searchKey]
+
+    const isNotId = item => item.objectID !== id
+    const updateHist = hits.filter(isNotId)
+    
+    this.setState({
+      results: {
+        ...results,
+        [searchKey]: { hits: updateHist, page }
+      }
     })
   }
 
@@ -100,13 +119,18 @@ class App extends Component {
 
   onSearchSubmit(event) {
     const { searchTerm } = this.state
-    this.fetchSearchTopStories(searchTerm, DEFAULT_PAGE)
+    this.setState({ searchKey: searchTerm })
+
+    if (this.needToSearchTopstories(searchTerm)) {
+      this.fetchSearchTopStories(searchTerm, DEFAULT_PAGE)
+    }
     event.preventDefault() // prevent browser reloads
   }
 
   render() {
-    const { searchTerm, result } = this.state
-    const page = (result && result.page) || 0
+    const { searchTerm, results, searchKey } = this.state
+    const page = (results && results[searchKey] && results[searchKey].page) || 0
+    const list = (results && results[searchKey] && results[searchKey].hits) || []
 
     return (
       <div className="page">
@@ -119,14 +143,12 @@ class App extends Component {
             Search
         </Search>
         </div>
-        { result &&
-          <Table
-            list={result.hits}
+        <Table
+            list={list}
             onDismiss={this.onDismiss}
           />
-        }
         <div className='interactions'>
-          <Button onClick={() => this.fetchSearchTopStories(searchTerm, page + 1)}>
+          <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
             More
           </Button>
         </div>
@@ -218,25 +240,6 @@ export default App;
         "_tags": "[\"story\", \"author_meagher\", \"story_17859749\", \"show…]",
         "objectID": "17859749",
         "_highlightResult": "{author: {…}, title: {…}, url: {…}}"
-      },
-      {
-        "created_at": "2016-06-07T15:44:20.000Z",
-        "title": "Cabin: Thoroughly Learn React and Redux with This Example App",
-        "url": "http://cabin.getstream.io/",
-        "author": "tortilla",
-        "points": 28,
-        "story_text": null,
-        "comment_text": null,
-        "num_comments": 2,
-        "story_id": null,
-        "story_title": null,
-        "story_url": null,
-        "parent_id": null,
-        "created_at_i": 1465314260,
-        "relevancy_score": 6773,
-        "_tags": "[\"story\", \"author_tortilla\", \"story_11855243\"]",
-        "objectID": "11855243",
-        "_highlightResult": "{author: {…}, title: {…}, url: {…}}"
       }
     ],
     "nbHits": 12794,
@@ -251,3 +254,18 @@ export default App;
   "searchTerm": "redux"
 }
  */
+
+/* Client cache
+
+results: {
+  redux: {
+    hits: [ ... ],
+    page: 2,
+  },
+  react: {
+    hits: [ ... ],
+    page: 1,
+  },
+  ...
+}
+*/
