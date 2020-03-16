@@ -22,14 +22,14 @@ const list = [
 ]
 
 // The function takes the searchTerm and returns another function which takes an item
-/* function isSearched(searchTerm) {
+function isSearched(searchTerm) {
   return function(item) { // You filter the list only when a searchTerm is set, else return all list
     return !searchTerm || item.title.toLowerCase().includes(searchTerm.toLowerCase())
   }
-} */
+}
 
-const isSearched = searchTerm => item =>
-  !searchTerm || item.title.toLowerCase().includes(searchTerm.toLowerCase())
+/* const isSearched = searchTerm => item =>
+  !searchTerm || item.title.toLowerCase().includes(searchTerm.toLowerCase()) */
 
 const DEFAULT_QUERY = 'redux'
 
@@ -51,6 +51,7 @@ class App extends Component {
     this.onSearchChange = this.onSearchChange.bind(this)
     this.setSearchTopStories = this.setSearchTopStories.bind(this)
     this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this)
+    this.onSearchSubmit = this.onSearchSubmit.bind(this)
   }
 
   setSearchTopStories(result) {
@@ -79,6 +80,12 @@ class App extends Component {
     this.setState({ searchTerm: event.target.value })
   }
 
+  onSearchSubmit(event) {
+    const { searchTerm } = this.state
+    this.fetchSearchTopStories(searchTerm)
+    event.preventDefault() // prevent browser reloads
+  }
+
   render() {
     const { searchTerm, result } = this.state
 
@@ -88,15 +95,15 @@ class App extends Component {
           <Search
             value={searchTerm}
             onChange={this.onSearchChange}
+            onSubmit={this.onSearchSubmit}
           >
             Search
         </Search>
         </div>
         { result &&
           <Table
-          list={result.hits}
-          searchTerm={searchTerm}
-          onDismiss={this.onDismiss}
+            list={result.hits}
+            onDismiss={this.onDismiss}
           />
         }
         
@@ -105,18 +112,21 @@ class App extends Component {
   }
 }
 
-const Search = ({ value, onChange, children }) =>
-  <form>
-    {children} <input
+const Search = ({ value, onChange, children , onSubmit }) =>
+  <form onSubmit={onSubmit}>
+    <input
       type="text"
       value={value}
       onChange={onChange}
     />
+    <button type="submit">
+      {children}
+    </button>
   </form>
 
-const Table = ({ list, searchTerm, onDismiss }) =>
+const Table = ({ list, onDismiss }) =>
   <div className="table">
-    {list.filter(isSearched(searchTerm)).map(item =>
+    {list.map(item =>
       <div key={item.objectID} className="table-row">
         <span style={{ width: '40%' }}>
           <a href={item.url}>{item.title}</a>
