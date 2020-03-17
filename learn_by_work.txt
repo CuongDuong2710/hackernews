@@ -154,7 +154,14 @@ const [
 	userThree
 ] = users;
 console.log(userOne, userTwo, userThree);
-// output: Robin Andrew Dan
+-> output: Robin Andrew Dan
+
+// before you would have to destructure the props before passing them
+const { foo, bar } = props;
+<SomeComponent foo={foo} bar={bar} />
+
+// but you can use the object spread operator to pass all object properties
+<SomeComponent { ...props } />
 
 10. CONDITION
 
