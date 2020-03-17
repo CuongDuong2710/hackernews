@@ -515,3 +515,27 @@ this.setState({
       [searchKey]: {hits: updateHits, page }  
     }
 })  
+
+27. HIGH ORDER COMPONENT - HOC
+
+_ They take any input - most of the time a component, but also optional arguments - and return a component as output. 
+_ They have multiple purposes like improved reusability of components, greater abstraction, composeability of components and
+manipulations of props, state and view. 
+
+function withFoo(Component) {
+	return function(props) {
+		return <Component { ...props } />;
+	}
+}
+
+_ One neat convention is to prefix the naming of a HOC with 'with'
+const withFoo = (Component) => (props) =>
+	<Component { ...props } />
+	
+_ Condition rendering with HOC
+const withLoading = (Component) => (props) =>
+	props.isLoading ? <Loading /> : <Component { ...props } />
+	
+_ Use destructuring to takes other properties
+const withLoading = (Component) => ({ isLoading, ...rest }) =>
+	isLoading ? <Loading /> : <Component { ...rest } />
