@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 import Button from './Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 const list = [
   {
@@ -165,8 +167,14 @@ class App extends Component {
   }
 }
 
-const Loading = () =>
-  <div>Loading...</div>
+const Loading = () => {
+  return (
+    <div>
+      <FontAwesomeIcon icon={faSpinner} spin />
+    </div>
+  )
+}
+  
 
 const Search = ({ value, onChange, children , onSubmit }) =>
   <form onSubmit={onSubmit}>

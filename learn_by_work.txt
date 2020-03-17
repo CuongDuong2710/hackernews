@@ -474,3 +474,37 @@ const userAge = { age: 28 };
 const user = { ...userNames, ...userAge };
 console.log(user);
 // output: { firstname: 'Robin', lastname: 'Wieruch', age: 28 }
+
+25. SUPPRES THE NATIVE BROWSER BEHAVIOR
+
+event.preventDefault(); // suppress the browser reloads
+
+26. [SEARCHKEY] SYNTAX
+
+_ [searchKey] syntax. It is an ES6 computed property name. It helps you to allocate
+values dynamically in an object.
+
+results: {
+  redux: {
+    hits: [ ... ],
+    page: 2,
+  },
+  react: {
+    hits: [ ... ],
+    page: 1,
+  },
+  ...
+}
+
+_ Get:
+const oldHits = results && results[searchKey]
+      ? results[searchKey].hits
+      : []
+
+_ setState:
+this.setState({
+    results: {
+      ...results,
+      [searchKey]: {hits: updateHits, page }  
+    }
+})  
