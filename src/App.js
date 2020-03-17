@@ -33,7 +33,7 @@ function isSearched(searchTerm) {
 
 const DEFAULT_QUERY = 'redux'
 const DEFAULT_PAGE = 0
-const DEFAULT_HPP = '50'
+const DEFAULT_HPP = '10'
 
 const PATH_BASE = 'https://hn.algolia.com/api/v1'
 const PATH_SEARCH = '/search'
@@ -49,7 +49,8 @@ class App extends Component {
     this.state = {
       results: null,
       searchKey: '',
-      searchTerm: DEFAULT_QUERY
+      searchTerm: DEFAULT_QUERY,
+      isLoading: false
     }
 
     this.needToSearchTopstories = this.needToSearchTopstories.bind(this)
@@ -82,11 +83,14 @@ class App extends Component {
       results: {
         ...results,
         [searchKey]: {hits: updateHits, page }  
-      }
+      },
+      isLoading: false
     })
   }
 
   fetchSearchTopStories(searchTerm, page) {
+    this.setState({ isLoading: true })
+
     fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`) // https://hn.algolia.com/api/v1/search?query='redux&page=0&hitsPerPage=100'
       .then(response => response.json())
       .then(result => this.setSearchTopStories(result))
@@ -128,7 +132,7 @@ class App extends Component {
   }
 
   render() {
-    const { searchTerm, results, searchKey } = this.state
+    const { searchTerm, results, searchKey, isLoading } = this.state
     const page = (results && results[searchKey] && results[searchKey].page) || 0
     const list = (results && results[searchKey] && results[searchKey].hits) || []
 
@@ -148,14 +152,21 @@ class App extends Component {
             onDismiss={this.onDismiss}
           />
         <div className='interactions'>
-          <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
-            More
-          </Button>
+          {
+            isLoading
+            ? <Loading />
+            : <Button onClick={() => this.fetchSearchTopStories(searchKey, page + 1)}>
+                More
+            </Button>
+          }
         </div>
       </div>
     );
   }
 }
+
+const Loading = () =>
+  <div>Loading...</div>
 
 const Search = ({ value, onChange, children , onSubmit }) =>
   <form onSubmit={onSubmit}>
