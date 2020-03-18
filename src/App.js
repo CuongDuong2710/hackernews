@@ -213,13 +213,23 @@ const Search = ({ value, onChange, children , onSubmit }) =>
     </button>
   </form>
 
-const Sort = ({ sortKey, onSort, children }) =>
-  <Button 
-    onClick={() => onSort(sortKey)}
-    className='button-inline'
-  >
-    {children}
-  </Button>
+const Sort = ({ sortKey, onSort, children, activeSortKey }) => {
+  const sortClass = ['button-inline']
+
+  if (sortKey === activeSortKey) {
+    sortClass.push('button-active')
+  }
+
+  return (
+    <Button 
+      onClick={() => onSort(sortKey)}
+      className={sortClass.join(' ')}
+    >
+      {children}
+    </Button>
+  )
+  // <button class="button-inline button-active" type="button">Author</button>
+}
 
 const Table = ({ list, onDismiss, sortKey, onSort, isSortReverse }) => {
   const sortedList = SORTS[sortKey](list)
@@ -231,6 +241,7 @@ const Table = ({ list, onDismiss, sortKey, onSort, isSortReverse }) => {
           <Sort
             sortKey={'TITLE'}
             onSort={onSort}
+            activeSortKey={sortKey}
           >
             Title
           </Sort>
@@ -239,6 +250,7 @@ const Table = ({ list, onDismiss, sortKey, onSort, isSortReverse }) => {
           <Sort
             sortKey={'AUTHOR'}
             onSort={onSort}
+            activeSortKey={sortKey}
           >
             Author
           </Sort>
@@ -247,6 +259,7 @@ const Table = ({ list, onDismiss, sortKey, onSort, isSortReverse }) => {
           <Sort
             sortKey={'COMMENTS'}
             onSort={onSort}
+            activeSortKey={sortKey}
           >
             Comments
           </Sort>
@@ -255,6 +268,7 @@ const Table = ({ list, onDismiss, sortKey, onSort, isSortReverse }) => {
           <Sort
             sortKey={'POINTS'}
             onSort={onSort}
+            activeSortKey={sortKey}
           >
             Points
           </Sort>
