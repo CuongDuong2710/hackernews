@@ -539,3 +539,45 @@ const withLoading = (Component) => (props) =>
 _ Use destructuring to takes other properties
 const withLoading = (Component) => ({ isLoading, ...rest }) =>
 	isLoading ? <Loading /> : <Component { ...rest } />
+	
+28. SORT LIST USING LODASH
+
+_ Install: npm install --save lodash
+_ import { sortBy } from 'lodash'
+
+Ex:
+const SORTS = {
+  NONE: list => list,
+  TITLE: list => sortBy(list, 'title'),
+  AUTHOR: list => sortBy(list, 'author'),
+  COMMENTS: list => sortBy(list, 'num_comments').reverse(),
+  POINTS: list => sortBy(list, 'points').reverse()
+}
+
+29. ADD CLASSES
+
+_ 1st:
+const sortClass = ['button-inline'];
+
+if (sortKey === activeSortKey) {
+	sortClass.push('button-active');
+}
+
+<Button
+	onClick={() => onSort(sortKey)}
+	className={sortClass.join(' ')}
+>...</>
+
+_ 2nd: using 'classnames' library
+
+import classNames from 'classnames'
+
+const sortClass = classNames(
+	'button-inline',
+	{ 'button-active': sortKey === activeSortKey }
+);
+
+<Button
+	onClick={() => onSort(sortKey)}
+	className={sortClass}
+>
