@@ -53,6 +53,27 @@ const PARAM_SEARCH = 'query='
 const PARAM_PAGE = 'page='
 const PARAM_HPP = 'hitsPerPage='
 
+const updateSearchTopstoriesState = (hits, page) => (prevState) => {
+  const { searchKey, results } = prevState
+
+  const oldHits = results && results[searchKey]
+    ? results[searchKey].hits
+    : []
+
+  const updateHists = [
+    ...oldHits,
+    ...hits
+  ]
+
+  return {
+    results: {
+      ...results,
+      [searchKey]: { hits: updateHists, page }
+    },
+    isLoading: false
+  }
+}
+
 class App extends Component {
 
   constructor(props) {
@@ -79,28 +100,7 @@ class App extends Component {
 
   setSearchTopStories(result) {
     const { hits, page } = result
-
-    this.setState(prevState => {
-      const { searchKey, results } = prevState
-
-      // check if there are already old hits from 'results' with 'searchKey' as key
-      const oldHits = results && results[searchKey]
-        ? results[searchKey].hits
-        : []
-  
-      const updateHits = [ // merge old and new data
-        ...oldHits,
-        ...hits
-      ]
-  
-      return {
-        results: {
-          ...results,
-          [searchKey]: {hits: updateHits, page }  
-        },
-        isLoading: false
-      }
-    })
+    this.setState(updateSearchTopstoriesState(hits, page))
   }
 
   fetchSearchTopStories(searchTerm, page) {
