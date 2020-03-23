@@ -79,24 +79,27 @@ class App extends Component {
 
   setSearchTopStories(result) {
     const { hits, page } = result
-    const { searchKey, results } = this.state
 
-    // check if there are already old hits from 'results' with 'searchKey' as key
-    const oldHits = results && results[searchKey]
-      ? results[searchKey].hits
-      : []
+    this.setState(prevState => {
+      const { searchKey, results } = prevState
 
-    const updateHits = [ // merge old and new data
-      ...oldHits,
-      ...hits
-    ]
-
-    this.setState({
-      results: {
-        ...results,
-        [searchKey]: {hits: updateHits, page }  
-      },
-      isLoading: false
+      // check if there are already old hits from 'results' with 'searchKey' as key
+      const oldHits = results && results[searchKey]
+        ? results[searchKey].hits
+        : []
+  
+      const updateHits = [ // merge old and new data
+        ...oldHits,
+        ...hits
+      ]
+  
+      return {
+        results: {
+          ...results,
+          [searchKey]: {hits: updateHits, page }  
+        },
+        isLoading: false
+      }
     })
   }
 
