@@ -120,7 +120,7 @@ ReactDOM.render(
 	document.getElementById('root')
 );
 
-_ ReactDOM.render() uses a DOM node in your HTML to replace it with your JSX.
+_ ReactDOM.render() uses a DOM node in your HTML to replace it with your JSX (Javascript XML).
 _ ReactDOM.render() expects two arguments:
 + The first argument is JSX that gets rendered.
 +  The second argument specifies the place where the React application hooks into your HTML.
@@ -581,3 +581,71 @@ const sortClass = classNames(
 	onClick={() => onSort(sortKey)}
 	className={sortClass}
 >
+
+30. SETSTATE()
+
+_ You can pass an object to the function where you can update partially the internal state.
+
+this.setState({ foo: bar });
+
+_ In its second version, you can pass a function to update the state.
+
+this.setState((prevState, props) => {
+	...
+});
+
++ It is when you update the state depending on the previous state or props. If you don’t use a function,
+the internal state management can cause bugs.
++ Why? The React setState() method is asynchronous. React batches setState() calls and executes them eventually.
+It can happen that the previous state or props changed in between when you would rely on it.
+Ex:
+const { fooCount } = this.state;
+const { barCount } = this.props;
+this.setState({ count: fooCount + barCount });
+=> Imagine that fooCount and barCount, thus the state or the props, can change somewhere else in your components.
+
+_ Solution: With the function approach, the function in setState() is a callback that operates on the state and
+props at the time of executing the callback function. 
+this.setState((prevState, props) => {
+	const { fooCount } = prevState;
+	const { barCount } = props;
+	return { count: fooCount + barCount };
+});
+
+31. Bất kỳ method hay function nào được gọi trong hàm map(), filter() của một list thì đều được truyền item trong list đó.
+
++ filter()
+list.filter(isSearched(searchTerm))
+
+function isSearched(searchTerm) {
+	return function(item) { // <---- each item is passed to isSearched()
+		return !searchTerm ||
+			item.title.toLowerCase().includes(searchTerm.toLowerCase());
+	}
+}
+
++ map()
+{list.map(item => 
+	  <div key={item.asset_id}>
+		<span>{item.name}</span>
+		<span>{item.type_is_crypto}</span>
+		<span>{item.price_usd}</span>
+		<span>
+		  <button
+			onClick={() => this.onDismiss(item.asset_id)}
+		  >
+			Dismiss
+		  </button>
+		</span>
+	  </div>
+)}
+
+onDismiss(id) {
+    function isAssetId(item) { //  <---- each item is passed to isSearched()
+      return item.asset_id !== id
+    }
+    const updateList = this.state.list.filter(isAssetId) // OR this.state.list.filter(item => item.asset_id !== id)
+    this.setState({
+      list: updateList
+    })
+}
