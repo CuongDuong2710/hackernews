@@ -1,32 +1,36 @@
-1. Sử dụng prevState có hai cách
+> 1. Sử dụng prevState có hai cách
 
-_ Một là khai báo một biến riêng lưu lại
+- Một là khai báo một biến riêng lưu lại
 
+```sh
 handleOpenActions () {
     let openContextMenu = this.state.openContextMenu // khai báo riêng
     this.setState({
       openContextMenu: !openContextMenu
     })
 }
+```
   
-_ Hai là dùng prevState
+- Hai là dùng prevState
+
+```sh
 handleOpenActions () {
 	this.setState((prevState) => ({ isOpenNoteAction: !prevState.isOpenNoteAction}))
 }
+```
 
-2. TypeError: this.setState is not a function
+> 2. TypeError: this.setState is not a function
 
-_ Nhớ bind(this) hàm trong constructor
+- Nhớ `bind(this)` hàm trong constructor
 
-3. Sử dụng map
+> 3. Sử dụng map
 
-+ enables you to iterate over your list of items to display them
-+ convert one list of items to another list of items. Ex: convert a list of item to HTML elements.
-+ add key attribute to list item. Only that way React is able to identify added, changed and removed items when the
-list changes.
-+ You should make sure that the key attribute is a stable identifier. Don’t make the mistake of using the item index 
-in the array. The array index isn’t stable at all.
+- enables you to `iterate over your list of items to display them`
+- convert one list of items to `another list of items`. Ex: convert a list of item to HTML elements.
+- `add key attribute to list item`. Only that way React is able to identify added, changed and removed items when the list changes.
+- You should make sure that `the key attribute is a stable identifier`. Don’t make the mistake of using the item index in the array. The array index isn’t stable at all.
 
+```sh
 // Do this
 {list.map(function (item) {
     return (
@@ -49,16 +53,18 @@ in the array. The array index isn’t stable at all.
 		</div>
 	);
 })}
+```
 
-4. Sử dụng arrow function
+> 4. Sử dụng arrow function
 
+```sh
 // function expression
 function () { ... }
 
 // arrow function expression
 () => { ... }
 
-+ You can remove the parenthesis when the function gets only one argument
+// You can remove the parenthesis when the function gets only one argument
 // allowed
 item => { ... }
 
@@ -72,8 +78,10 @@ item, key => { ... }
 (item, key) => { ... }
 
 {list.map(function (item) {
-    return (
+	return (
 		<div key={item.objectID}>
+		...
+	)}}
 		
 {list.map(item => {
 	return (
@@ -81,28 +89,34 @@ item, key => { ... }
 		...
 	)}}
 	
-_ Can remove block body and return statement.  In a concise body an implicit
-return is attached thus you can remove the return statement
+// Can remove block body and return statement. In a concise body an implicit
+// return is attached thus you can remove the return statement
 
 {list.map(item =>
 		<div key={item.objectID}>
 		...
 	)}}
-	
-5. ES6 const and let
+```
 
-_ A variable declared with 'const' cannot be re-assigned or re-declared. It cannot get mutated (changed, modifield)
+> 5. ES6 const and let
 
+- A variable declared with 'const' cannot be re-assigned or re-declared. It cannot get mutated (changed, modifield)
+
+```sh
 const hello = 'ReactJS'
 hello = 'bye bye' > Uncaught TypeError: Assignment to constant variable.
+```
 
-_ A variable declared with let can get mutated.
+- A variable declared with let can get mutated.
 
+```sh
 let abc = 'React Native'
 abc = 'Flutter' > Flutter
+```
 
-Note: When the variable is an array or object, the value it holds can get altered.
+**Note**: When the variable is an array or object, `the value it holds can get altered`.
 
+```sh
 const example = {
     text: 'Welcome to React'
 }
@@ -110,24 +124,29 @@ const example = {
 example.text > "Welcome to React"
 example.text = 'Say hi'
 example.text > "Say hi"
+```
 
-_ In your application, you should use const over var.
+- In your application, you `should use const over var`.
 
-6. ReactDOM
+> 6. ReactDOM
 
+```sh
 ReactDOM.render(
 	<App />,
 	document.getElementById('root')
 );
+```
 
-_ ReactDOM.render() uses a DOM node in your HTML to replace it with your JSX (Javascript XML).
-_ ReactDOM.render() expects two arguments:
-+ The first argument is JSX that gets rendered.
-+  The second argument specifies the place where the React application hooks into your HTML.
-It expects an element with an id='root'. 
+- ReactDOM.render() uses a DOM node in your HTML to replace it with your JSX (Javascript XML).
+- ReactDOM.render() expects two arguments:
+	- The first argument is JSX that gets rendered.
+	- The second argument specifies the place where the React application hooks into your HTML.
 
-7. Key and variable share the same name
+- It expects an element with an id='root'. 
 
+> 7. Key and variable share the same name
+
+```sh
 this.state = {
 	list: list
 }
@@ -135,47 +154,62 @@ this.state = {
 this.state = {
 	list
 }
+```
 
-8. Bind(this)
+> 8. Bind(this)
 
+```sh
 // the function is bound to the class => becomes a class method
 this.onDismiss = this.onDismiss.bind(this)
+```
 
-9. DESTRUCTING
+> 9. DESTRUCTING
 
-_ Object
+- Object
+
+```sh
 const { searchTerm, list } = this.state
+```
 
-_ Array
+- Array
+
+```sh
 const users = ['Robin', 'Andrew', 'Dan'];
 const [
 	userOne,
 	userTwo,
 	userThree
 ] = users;
-console.log(userOne, userTwo, userThree);
--> output: Robin Andrew Dan
 
+console.log(userOne, userTwo, userThree);
+
+-> output: Robin Andrew Dan
+```
+
+- Spread operator
+
+```sh
 // before you would have to destructure the props before passing them
 const { foo, bar } = props;
 <SomeComponent foo={foo} bar={bar} />
 
 // but you can use the object spread operator to pass all object properties
 <SomeComponent { ...props } />
+```
 
-10. CONDITION
+> 10. CONDITION
 
-+ 1st
-
+```sh
 result ? <Table /> : null
 
 result && <Table />
+```
 
-11. ES6 CLASSES
+> 11. ES6 CLASSES
 
-+ Even though React embraces functional programming, for instance with immutable data structures,
-classes are used to declare components. They are called ES6 class components. 
+- Even though React embraces functional programming, for instance with immutable data structures, classes are used to declare components. They are called ES6 class components. 
 
+```sh
 class Developer {
 	constructor(firstname, lastname) {
 		this.firstname = firstname;
@@ -185,14 +219,15 @@ class Developer {
 		return this.firstname + ' ' + this.lastname;
 	}
 }
+```
 
-+ A class has a constructor to make it instantiable. The constructor can take arguments to assign it to
-the class instance. Additionally a class can define functions. 
-+  Because the function is associated with a class, it is called a method.
-+ You can create multiple instances of the class by invoking it
+- A class has a constructor to make it instantiable. The constructor can take arguments to assign it to the class instance. Additionally a class can define functions. 
+- Because the function is associated with a class, it is called a method.
+- You can create multiple instances of the class by invoking it
 
-_ Extends 'Component':
+> Extends 'Component':
 
+```sh
 import React, { Component } from 'react';
 ...
 class App extends Component {
@@ -200,17 +235,17 @@ class App extends Component {
 	...
 	}
 }
+```
 
-+ 'App' inherits functionalities from the Component class, extend a basic ES6 class to a ES6 component class.
-+ The methods a React Component exposes is the public interface. One of these methods has to be overwritten,
-the others don’t need to be overwritten.
+- 'App' inherits functionalities from the Component class, extend a basic ES6 class to a ES6 component class.
+- The methods a React Component exposes is the public interface. One of these methods has to be overwritten, the others don’t need to be overwritten.
 
-12. INTERNAL COMPONENT STATE
+> 12. INTERNAL COMPONENT STATE
 
-+ Internal component state allows you to store, modify and delete properties of your component.
-+  The ES6 class component can use a constructor to initialize internal component state. The constructor is
-called only once when the component initializes.
+- Internal component state allows you to store, modify and delete properties of your component.
+- The ES6 class component can use a constructor to initialize internal component state. The constructor is `called only once when the component initializes`.
 
+```sh
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -221,33 +256,35 @@ class App extends Component {
 	}
 	...
 }
+```
 
-+ Note that you have to call super(props); to call the constructor of the extended Component class.
-It’s mandatory, because it sets this.props in your constructor.
-+ The state is bound to the class with the this object.
-+ Every time you change your component state, the render() method of your component will run again.
+- Note that you have to call `super(props);` to call the constructor of the extended Component class. `It’s mandatory`, because it sets `this.props` in your constructor.
+- The state is bound to the class with the this object.
+- Every time you change your component state, the render() method of your component `will run again`.
 
-*** NOTE:  Don’t mutate the state directly. You have to use a method called setState() to modify your state.
+**NOTE:**  Don’t mutate the state directly. You have to use a method called `setState()` to modify your state.
 
-13. ES6 OBJECT INITIALIZER
+> 13. ES6 OBJECT INITIALIZER
 
-+ You can initialize methods in an object
+- You can initialize methods in an object
 
+```sh
 // ES6
 const userService = {
 	getUserName(user) {
 		return user.firstname + ' ' + user.lastname;
 	},
 };
+```
 
-14. FILTER
+> 14. FILTER
 
-+ The filter function takes a function to evaluate each item in the list. 
-If the evaluation for an item is true, the item stays in the list. Otherwise it will get removed. 
-Additionally the function returns a new list and doesn’t mutate the old list.
+- The filter function `takes a function to evaluate each item in the list`. If the evaluation for an item is true, the item stays in the list. Otherwise it will get removed.
+- Additionally the function returns `a new list` and doesn’t mutate the old list.
 
 Example:
 
+```sh
 var ages = [32, 33, 16, 40];
 
 function checkAdult(age) {
@@ -259,8 +296,9 @@ function myFunction() {
 }
 
 >>> 32,33,40
+```
 
-15. HIGH ORDER FUNCTION
+> 15. HIGH ORDER FUNCTION
 
 + We have to pass the searchTerm to the filter function and have to return a new function to evaluate the
 condition. That’s called a higher order function
@@ -274,7 +312,7 @@ function isSearched(searchTerm) {
 	}
 }
 
-16. PROPS
+> 16. PROPS
 
 + The props - short form for properties - have all the values you have passed to the components when
 you used them in your App component. You could reuse these components somewhere else but pass them different values.
@@ -283,7 +321,7 @@ They are reusable.
 +  After all it is not only text that you can pass as children. You can pass an element and element trees 
 (which can be encapsulated by components again) as children.
 
-17. DEFAULT PARAMETER
+> 17. DEFAULT PARAMETER
 
 class Button extends Component {
 	render() {
@@ -298,7 +336,7 @@ class Button extends Component {
 
 Now, whenever there is no className property, the value will be an empty string.
 
-18. COMPONENT DECLARATIONS
+> 18. COMPONENT DECLARATIONS
 
 _ Functional Stateless Components: 
 + Which get an input and return an output. The input is the props object.
@@ -333,7 +371,7 @@ const Search = ({ value, onChange, children }) =>
 		/>
 	</form>
 
-19. LIFECYCLE METHODS ***
+> 19. LIFECYCLE METHODS ***
 
 _ These methods are a hokk into the lifecycle of a React component.
 
@@ -353,7 +391,7 @@ _ These methods are a hokk into the lifecycle of a React component.
 + The unmounting lifecycle
 • componentWillUnmount()
 
-20. SPECIFIC EACH LIFECYCLE METHODS ***
+> 20. SPECIFIC EACH LIFECYCLE METHODS ***
 
 + The mounting of a component
 
@@ -397,13 +435,13 @@ perform further asynchronous requests.
 • componentWillUnmount() - It is called before you destroy your component. You can use the
 lifecycle method to perform any clean up tasks.
 
-21. TEMPLATE STRING
+> 21. TEMPLATE STRING
 
 _ Use to concatenate strings
 // ES6
 const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`;
 
-22. FETCHING DATA
+> 22. FETCHING DATA
 
 _ Use native 'fetch' function
 
@@ -433,7 +471,7 @@ did mount.
 transformed to json, that’s a mandatory step in a native fetch, and can finally be set in the internal component state.
 
 
-23. OBJECT ASSIGN
+> 23. OBJECT ASSIGN
 
 _ React embraces functional programming. Thus you shouldn’t mutate an object (or mutate the state
 directly). A better approach is to generate a new object based on information you have.
@@ -446,7 +484,7 @@ These objects are merged into the target object. The target object can be an emp
 const updatedHits = { hits: updatedHits };
 const updatedResult = Object.assign({}, this.state.result, updatedHits);
 
-24. SPREAD OPERATOR IN ES6
+> 24. SPREAD OPERATOR IN ES6
 
 _ Spread operator ->  It only consists of three dots: ... When it is used, every value
 from an array or object gets copied to another array or object.
@@ -482,11 +520,11 @@ const user = { ...userNames, ...userAge };
 console.log(user);
 // output: { firstname: 'Robin', lastname: 'Wieruch', age: 28 }
 
-25. SUPPRES THE NATIVE BROWSER BEHAVIOR
+> 25. SUPPRES THE NATIVE BROWSER BEHAVIOR
 
 event.preventDefault(); // suppress the browser reloads
 
-26. [SEARCHKEY] SYNTAX
+> 26. [SEARCHKEY] SYNTAX
 
 _ [searchKey] syntax. It is an ES6 computed property name. It helps you to allocate
 values dynamically in an object.
@@ -516,7 +554,7 @@ this.setState({
     }
 })  
 
-27. HIGH ORDER COMPONENT - HOC
+> 27. HIGH ORDER COMPONENT - HOC
 
 _ They take any input - most of the time a component, but also optional arguments - and return a component as output. 
 _ They have multiple purposes like improved reusability of components, greater abstraction, composeability of components and
@@ -540,7 +578,7 @@ _ Use destructuring to takes other properties
 const withLoading = (Component) => ({ isLoading, ...rest }) =>
 	isLoading ? <Loading /> : <Component { ...rest } />
 	
-28. SORT LIST USING LODASH
+> 28. SORT LIST USING LODASH
 
 _ Install: npm install --save lodash
 _ import { sortBy } from 'lodash'
@@ -554,7 +592,7 @@ const SORTS = {
   POINTS: list => sortBy(list, 'points').reverse()
 }
 
-29. ADD CLASSES
+> 29. ADD CLASSES
 
 _ 1st:
 const sortClass = ['button-inline'];
@@ -582,7 +620,7 @@ const sortClass = classNames(
 	className={sortClass}
 >
 
-30. SETSTATE()
+> 30. SETSTATE()
 
 _ You can pass an object to the function where you can update partially the internal state.
 
@@ -612,7 +650,7 @@ this.setState((prevState, props) => {
 	return { count: fooCount + barCount };
 });
 
-31. Bất kỳ method hay function nào được gọi trong hàm map(), filter() của một list thì đều được truyền item trong list đó.
+> 31. Bất kỳ method hay function nào được gọi trong hàm map(), filter() của một list thì đều được truyền item trong list đó.
 
 + filter()
 list.filter(isSearched(searchTerm))
@@ -650,7 +688,7 @@ onDismiss(id) {
     })
 }
 
-30. SETSTATE() - Part 2 ***
+> 30. SETSTATE() - Part 2 ***
 
 _ Executing one of the class methods, onIncrement() or onDecrement(), multiple times could lead
 to a bug. Because both methods depend on the previous state, it could use a stale (cũ) state when the
