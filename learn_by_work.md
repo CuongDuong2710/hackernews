@@ -399,58 +399,44 @@ const Search = ({ value, onChange, children }) =>
 
 > 20. SPECIFIC EACH LIFECYCLE METHODS ***
 
-+ The mounting of a component
+- The mounting of a component
 
-• constructor(props):  It is called when the component gets initialized. You can set an initial
-component state and bind useful class methods during that lifecycle method.
+	- `constructor(props)`:  It is called when the component gets initialized. You can set an initial component state and bind useful class methods during that lifecycle method.
 
-• componentWillMount() - It is called before the render() lifecycle method. That’s why it
-could be used to set internal component state, because it will not trigger a second rendering
-of the component. Generally it is recommend to use the constructor() to set the initial state.
+	- `componentWillMount()` - It is called before the render() lifecycle method. That’s why it could be used to set internal component state, because it will not trigger a second rendering of the component. Generally it is recommend to use the constructor() to set the initial state.
 
-• render() - The lifecycle method is mandatory and returns the elements as an output of the
-component. The method should be pure and therefore shouldn’t modify the component state.
-It gets an input as props and state and returns an element.
+	- `render()` - The lifecycle method is mandatory and returns the elements as an output of the component. The method should be pure and therefore shouldn’t modify the component state. It gets an input as props and state and returns an element.
 
-• componentDidMount() - It is called only once when the component mounted. That’s the
-perfect time to do an asynchronous request to fetch data from an API. The fetched data would
-get stored in the internal component state to display it in the render() lifecycle method.
+	- `componentDidMount()` - It is called only once when the component mounted. That’s the perfect time to do an asynchronous request to fetch data from an API. The fetched data would get stored in the internal component state to display it in the render() lifecycle method.
 
-+ The update lifecycle of a component
+- The update lifecycle of a component
 
-• componentWillReceiveProps(nextProps) - The lifecycle method is called during an update
-lifecycle. As input you get the next props. You can diff the next props with the previous props
-(this.props) to apply a different behavior based on the diff. Additionally you can set state
-based on the next props.
+	- `componentWillReceiveProps(nextProps)` - The lifecycle method is called during an update lifecycle. As input you get the next props. You can diff the next props with the previous props (this.props) to apply a different behavior based on the diff. Additionally you can set state based on the next props.
 
-• shouldComponentUpdate(nextProps, nextState) - It is always called when the component
-updates due to state or props changes. Depending on a boolean that you return from this lifecycle
-method, the component and all its children will render or will not render on an update
-lifecycle.
+	- `shouldComponentUpdate(nextProps, nextState)` - It is always called when the component updates due to state or props changes. Depending on a boolean that you return from this lifecycle method, the component and all its children will render or will not render on an update lifecycle.
 
-• componentWillUpdate(nextProps, nextState) - The lifecycle method is immediately invoked before the render() method. 
-You already have the next props and next state at your disposal. You can use the method as last opportunity to perform 
-preparations before the render method gets executed. 
-*** NOTE THAT: you cannot trigger setState() anymore. If you want to
-compute state based on the next props, you have to use componentWillReceiveProps().
+	- `componentWillUpdate(nextProps, nextState)` - The lifecycle method is immediately invoked before the render() method. You already have the next props and next state at your disposal. You can use the method as last opportunity to perform preparations before the render method gets executed. 
 
-• componentDidUpdate(prevProps, prevState) - The lifecycle method is immediately invoked
-after the render() method. You can use it as opportunity to perform DOM operations or to
-perform further asynchronous requests.
+	- `componentDidUpdate(prevProps, prevState)` - The lifecycle method is immediately invoked after the render() method. You can use it as opportunity to perform DOM operations or to perform further asynchronous requests.
 
-• componentWillUnmount() - It is called before you destroy your component. You can use the
-lifecycle method to perform any clean up tasks.
+	- `componentWillUnmount()` - It is called before you destroy your component. You can use the lifecycle method to perform any clean up tasks.
+
+**NOTE THAT:** you cannot trigger setState() anymore. If you want to compute state based on the next props, you have to use componentWillReceiveProps().
 
 > 21. TEMPLATE STRING
 
-_ Use to concatenate strings
+Use to concatenate strings
+
+```sh
 // ES6
 const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`;
+```
 
 > 22. FETCHING DATA
 
-_ Use native 'fetch' function
+Use native 'fetch' function
 
+```sh
 this.state = {
 	result: null,
 	searchTerm: 'redux',
@@ -470,12 +456,10 @@ componentDidMount() {
 	const { searchTerm } = this.state;
 	this.fetchSearchTopstories(searchTerm);
 }
+```
 
-1st. Use the componentDidMount() lifecycle method to fetch the data after the component
-did mount.
-2nd. The native fetch is used. The url is the argument for the native fetch API function. The response needs to get
-transformed to json, that’s a mandatory step in a native fetch, and can finally be set in the internal component state.
-
+- Use the `componentDidMount()` lifecycle method to fetch the data after the component did mount.
+- The native `fetch` is used. The url is the argument for the native fetch API function. The response needs to get transformed to json, that’s a mandatory step in a native fetch, and can finally be set in the internal component state.
 
 > 23. OBJECT ASSIGN
 
