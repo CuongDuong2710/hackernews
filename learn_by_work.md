@@ -300,9 +300,9 @@ function myFunction() {
 
 > 15. HIGH ORDER FUNCTION
 
-+ We have to pass the searchTerm to the filter function and have to return a new function to evaluate the
-condition. That’s called a higher order function
+- We have to pass the searchTerm to the filter function and have to return a new function to evaluate the condition. That’s called a higher order function
 
+```sh
 list.filter(isSearched(searchTerm))
 
 function isSearched(searchTerm) {
@@ -311,18 +311,17 @@ function isSearched(searchTerm) {
 			item.title.toLowerCase().includes(searchTerm.toLowerCase());
 	}
 }
+```
 
 > 16. PROPS
 
-+ The props - short form for properties - have all the values you have passed to the components when
-you used them in your App component. You could reuse these components somewhere else but pass them different values.
-They are reusable.
+- `The props` - short form for properties - have all the values you have passed to the components when you used them in your App component. You could reuse these components somewhere else but pass them different values. They are reusable.
 
-+  After all it is not only text that you can pass as children. You can pass an element and element trees 
-(which can be encapsulated by components again) as children.
+- After all it is not only text that you can pass as children. You can pass an element and element trees (which can be encapsulated by components again) as children.
 
 > 17. DEFAULT PARAMETER
 
+```sh
 class Button extends Component {
 	render() {
 		const {
@@ -333,23 +332,26 @@ class Button extends Component {
 		...
 	}
 }
+```
 
 Now, whenever there is no className property, the value will be an empty string.
 
 > 18. COMPONENT DECLARATIONS
 
-_ Functional Stateless Components: 
-+ Which get an input and return an output. The input is the props object.
-The output is a component instance.
-+ Functional stateless components are functions (functional) and they have no internal state (stateless)
-+ Additionally they have no lifecycle methods.
+- Functional Stateless Components: 
 
-_ ES6 Class Components:
-+ They extend from the React component. The extend hooks all the lifecycle methods
-- available in the React component API - to the component. 
-+ You can store and manipulate state in ES6 class components
+	- Which get an input and return an output. The input is the props object. The output is a component instance.
+	- Functional stateless components are functions (functional) and they have no internal state (stateless)
+	- Additionally they have no lifecycle methods.
+
+- ES6 Class Components:
+
+	- They extend from the React component. The extend hooks all the lifecycle methods available in the React component API - to the component. 
+	- You can store and manipulate state in ES6 class components
 
 Ex:
+
+```sh
 function Search({ value, onChange, children }) {
 	return (
 		<form>
@@ -370,26 +372,30 @@ const Search = ({ value, onChange, children }) =>
 		onChange={onChange}
 		/>
 	</form>
+```
 
-> 19. LIFECYCLE METHODS ***
+> 19. LIFECYCLE METHODS
 
-_ These methods are a hokk into the lifecycle of a React component.
+- These methods are a hokk into the lifecycle of a React component.
 
-+ The mounting of a component has 4 lifecycle methods
-• constructor()
-• componentWillMount()
-• render()
-• componentDidMount()
+	- The mounting of a component has 4 lifecycle methods
 
-+ The update lifecycle of a component when the state or the props change
-• componentWillReceiveProps()
-• shouldComponentUpdate()
-• componentWillUpdate()
-• render()
-• componentDidUpdate()
+		- constructor()
+		- componentWillMount()
+		- render()
+		- componentDidMount()
 
-+ The unmounting lifecycle
-• componentWillUnmount()
+	- The update lifecycle of a component when the state or the props change
+	
+		- componentWillReceiveProps()
+		- shouldComponentUpdate()
+		- componentWillUpdate()
+		- render()
+		- componentDidUpdate()
+
+	- The unmounting lifecycle
+	
+		- componentWillUnmount()
 
 > 20. SPECIFIC EACH LIFECYCLE METHODS ***
 
