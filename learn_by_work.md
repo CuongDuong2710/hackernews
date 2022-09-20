@@ -463,52 +463,60 @@ componentDidMount() {
 
 > 23. OBJECT ASSIGN
 
-_ React embraces functional programming. Thus you shouldn’t mutate an object (or mutate the state
-directly). A better approach is to generate a new object based on information you have.
+React embraces functional programming. Thus you shouldn’t mutate an object (or mutate the state directly). A better approach is to generate a new object based on information you have.
+
 You will always return a new object and never alter an object.
 
-+ ES5
-_ Object.assign() takes as first argument a target object. All following arguments are source objects. 
-These objects are merged into the target object. The target object can be an empty object. 
+ES5
 
+`Object.assign()` takes as first argument a `target object`. All following arguments are `source objects`. These objects are merged into the target object. The target object can be an empty object. 
+
+```sh
 const updatedHits = { hits: updatedHits };
 const updatedResult = Object.assign({}, this.state.result, updatedHits);
+```
 
 > 24. SPREAD OPERATOR IN ES6
 
-_ Spread operator ->  It only consists of three dots: ... When it is used, every value
-from an array or object gets copied to another array or object.
+- Spread operator: It only consists of three dots: `...` When it is used, every value from an array or object gets copied to another array or object.
 
---- Variable
+```sh
+
+// Variable
 const userList = ['Robin', 'Andrew', 'Dan'];
 const additionalUser = 'Jordan';
 const allUsers = [ ...userList, additionalUser ];
 console.log(allUsers);
-// output: ['Robin', 'Andrew', 'Dan', 'Jordan']
--> The 'allUsers' variable is a completely new array. 
 
---- Array
+// output: ['Robin', 'Andrew', 'Dan', 'Jordan']
+// The 'allUsers' variable is a completely new array. 
+
+// Array
 const oldUsers = ['Robin', 'Andrew'];
 const newUsers = ['Dan', 'Jordan'];
 const allUsers = [ ...oldUsers, ...newUsers ];
 console.log(allUsers);
+
 // output: ['Robin', 'Andrew', 'Dan', 'Jordan']
+```
 
---- Object -> It copies each key value pair into a new object.
+- Object: It copies each key value pair into a new object.
 
-Ex1:
+```sh
+// Ex1:
 const userNames = { firstname: 'Robin', lastname: 'Wieruch' };
 const age = 28;
 const user = { ...userNames, age };
 console.log(user);
 // output: { firstname: 'Robin', lastname: 'Wieruch', age: 28 }
 
-Ex2:
+// Ex2:
 const userNames = { firstname: 'Robin', lastname: 'Wieruch' };
 const userAge = { age: 28 };
 const user = { ...userNames, ...userAge };
 console.log(user);
 // output: { firstname: 'Robin', lastname: 'Wieruch', age: 28 }
+```
 
 > 25. SUPPRES THE NATIVE BROWSER BEHAVIOR
 
