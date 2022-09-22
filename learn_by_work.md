@@ -616,7 +616,9 @@ const SORTS = {
 
 > 29. ADD CLASSES
 
-_ 1st:
+- 1st:
+
+```sh
 const sortClass = ['button-inline'];
 
 if (sortKey === activeSortKey) {
@@ -627,9 +629,11 @@ if (sortKey === activeSortKey) {
 	onClick={() => onSort(sortKey)}
 	className={sortClass.join(' ')}
 >...</>
+```
 
-_ 2nd: using 'classnames' library
+- 2nd: using 'classnames' library
 
+```sh
 import classNames from 'classnames'
 
 const sortClass = classNames(
@@ -641,36 +645,46 @@ const sortClass = classNames(
 	onClick={() => onSort(sortKey)}
 	className={sortClass}
 >
+```
 
 > 30. SETSTATE()
 
-_ You can pass an object to the function where you can update partially the internal state.
+- You can pass an object to the function where you can update partially the internal state.
 
+```sh
 this.setState({ foo: bar });
+```
 
-_ In its second version, you can pass a function to update the state.
+- In its second version, you can pass a function to update the state.
 
+```sh
 this.setState((prevState, props) => {
 	...
 });
+```
 
-+ It is when you update the state depending on the previous state or props. If you don’t use a function,
-the internal state management can cause bugs.
-+ Why? The React setState() method is asynchronous. React batches setState() calls and executes them eventually.
-It can happen that the previous state or props changed in between when you would rely on it.
+- It is when you update the state depending on the previous state or props. If you don’t use a function, the internal state management can cause bugs.
+- Why? The React `setState()` method is asynchronous. React batches `setState()` calls and executes them eventually. It can happen that the previous state or props changed in between when you would rely on it.
+
 Ex:
+
+```sh
 const { fooCount } = this.state;
 const { barCount } = this.props;
 this.setState({ count: fooCount + barCount });
-=> Imagine that fooCount and barCount, thus the state or the props, can change somewhere else in your components.
+```
 
-_ Solution: With the function approach, the function in setState() is a callback that operates on the state and
-props at the time of executing the callback function. 
+> Imagine that fooCount and barCount, thus the state or the props, can change somewhere else in your components.
+
+**Solution**: With the function approach, the function in setState() is a callback that operates on the state and props at the time of executing the callback function. 
+
+```sh
 this.setState((prevState, props) => {
 	const { fooCount } = prevState;
 	const { barCount } = props;
 	return { count: fooCount + barCount };
 });
+```
 
 > 31. Bất kỳ method hay function nào được gọi trong hàm map(), filter() của một list thì đều được truyền item trong list đó.
 
