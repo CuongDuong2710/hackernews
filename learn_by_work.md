@@ -560,34 +560,51 @@ this.setState({
 
 > 27. HIGH ORDER COMPONENT - HOC
 
-_ They take any input - most of the time a component, but also optional arguments - and return a component as output. 
-_ They have multiple purposes like improved reusability of components, greater abstraction, composeability of components and
-manipulations of props, state and view. 
+- They take any input - most of the time a component, but also optional arguments - and return a component as output. 
+- They have multiple purposes like improved reusability of components, greater abstraction, composeability of components and manipulations of props, state and view. 
 
+```sh
 function withFoo(Component) {
 	return function(props) {
 		return <Component { ...props } />;
 	}
 }
+```
 
-_ One neat convention is to prefix the naming of a HOC with 'with'
+- One neat convention is to prefix the naming of a HOC with 'with'
+
+```sh
 const withFoo = (Component) => (props) =>
 	<Component { ...props } />
+```
 	
-_ Condition rendering with HOC
+- Condition rendering with HOC
+
+```sh
 const withLoading = (Component) => (props) =>
 	props.isLoading ? <Loading /> : <Component { ...props } />
-	
-_ Use destructuring to takes other properties
+```
+
+- Use destructuring to takes other properties
+
+```sh
 const withLoading = (Component) => ({ isLoading, ...rest }) =>
 	isLoading ? <Loading /> : <Component { ...rest } />
-	
+```
+
 > 28. SORT LIST USING LODASH
 
-_ Install: npm install --save lodash
-_ import { sortBy } from 'lodash'
+- Install
+
+```sh
+npm install --save lodash
+
+import { sortBy } from 'lodash'
+```
 
 Ex:
+
+```sh
 const SORTS = {
   NONE: list => list,
   TITLE: list => sortBy(list, 'title'),
@@ -595,6 +612,7 @@ const SORTS = {
   COMMENTS: list => sortBy(list, 'num_comments').reverse(),
   POINTS: list => sortBy(list, 'points').reverse()
 }
+```
 
 > 29. ADD CLASSES
 
