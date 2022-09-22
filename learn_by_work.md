@@ -688,7 +688,9 @@ this.setState((prevState, props) => {
 
 > 31. Bất kỳ method hay function nào được gọi trong hàm map(), filter() của một list thì đều được truyền item trong list đó.
 
-+ filter()
+- filter()
+
+```sh
 list.filter(isSearched(searchTerm))
 
 function isSearched(searchTerm) {
@@ -697,8 +699,11 @@ function isSearched(searchTerm) {
 			item.title.toLowerCase().includes(searchTerm.toLowerCase());
 	}
 }
+```
 
-+ map()
+- map()
+
+```sh
 {list.map(item => 
 	  <div key={item.asset_id}>
 		<span>{item.name}</span>
@@ -723,6 +728,7 @@ onDismiss(id) {
       list: updateList
     })
 }
+```
 
 > 30. SETSTATE() - Part 2 ***
 
