@@ -520,13 +520,15 @@ console.log(user);
 
 > 25. SUPPRES THE NATIVE BROWSER BEHAVIOR
 
+```sh
 event.preventDefault(); // suppress the browser reloads
+```
 
 > 26. [SEARCHKEY] SYNTAX
 
-_ [searchKey] syntax. It is an ES6 computed property name. It helps you to allocate
-values dynamically in an object.
+- [searchKey] syntax. It is an ES6 computed property name. It helps you to allocate values dynamically in an object.
 
+```sh
 results: {
   redux: {
     hits: [ ... ],
@@ -538,8 +540,11 @@ results: {
   },
   ...
 }
+```
 
-_ Get:
+- Get:
+
+```sh
 const oldHits = results && results[searchKey]
       ? results[searchKey].hits
       : []
@@ -550,7 +555,8 @@ this.setState({
       ...results,
       [searchKey]: {hits: updateHits, page }  
     }
-})  
+})
+```
 
 > 27. HIGH ORDER COMPONENT - HOC
 
