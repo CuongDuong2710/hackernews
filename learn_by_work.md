@@ -730,14 +730,15 @@ onDismiss(id) {
 }
 ```
 
-> 30. SETSTATE() - Part 2 ***
+> 30. SETSTATE() - Part 2
 
-_ Executing one of the class methods, onIncrement() or onDecrement(), multiple times could lead
+- Executing one of the class methods, onIncrement() or onDecrement(), multiple times could lead
 to a bug. Because both methods depend on the previous state, it could use a stale (cũ) state when the
 asynchronous update wasn’t executed in between and the method got invoked another time.
 
 Ex:
 
+```sh
 onIncrement() {
 	this.setState({
 		counter: this.state.counter + 1
@@ -754,10 +755,13 @@ this.setState({ counter: this.state.counter + 1 }); // this.state: { counter: 0 
 this.setState({ counter: this.state.counter + 1 }); // this.state: { counter: 0 }
 // updated state: { counter: 1 }
 // instead of: { counter: 3 }
+```
 
-_ It becomes even more error prone when multiple functions, use this.setState() depend on the previous state.
+- It becomes even more error prone when multiple functions, use this.setState() depend on the previous state.
 
-_ Refactor
+- Refactor
+
+```sh
 onIncrement() {
 	this.setState(prevState => ({
 		counter: prevState.counter + 1
@@ -768,13 +772,13 @@ onDecrement() {
 		counter: prevState.counter - 1
 	}));
 }
+```
 
-_ Two more benefits:
-+ First, the function which is used in this.setState() is a pure function. There are no side-effects. The function always will return the same output (next state)
-when given the same input (previous state).
-+ Second, , since the function is pure, it can be tested easily in an unit test and independently from the component. It gives you the opportunity to test your local state updates
-as business logic which is separated from the view layer. 
+- Two more benefits:
+	- First, the function which is used in this.setState() is a pure function. There are no side-effects. The function always will return the same output (next state) when given the same input (previous state).
+	- Second, , since the function is pure, it can be tested easily in an unit test and independently from the component. It gives you the opportunity to test your local state updates as business logic which is separated from the view layer. 
 
+```sh
 const incrementUpdate = prevState => ({
 	counter: prevState.counter + 1
 });
@@ -789,3 +793,4 @@ onIncrement() {
 onDecrement() {
 	this.setState(decrementUpdate);
 }
+```
