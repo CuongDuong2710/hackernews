@@ -794,3 +794,33 @@ onDecrement() {
 	this.setState(decrementUpdate);
 }
 ```
+
+> 31. INPUT SEMANTIC
+
+<Input defaultValue='5' value='' placeholder='Search...' />
+
+=> input hiển thị empty vì ưu tiên hiển thị value. Nếu không có value mới dùng defaultValue.
+
+_ Fix bug: bóc tách value ra khỏi cục data và đưa vào defaultValue cải thiện performance vì cục data trải qua nhiều xử lý như
+inputChangedDelay, handleInput... Bóc tách value ra khỏi data và gán trực tiếp vô defaultValue
+
+let {value, ...data} = this.props
+<Input
+    {...data}
+    defaultValue={value || defaultValue || ''}
+/>
+
+> 32. DELETE ALL SELECTED INPUT
+
+_ When selected all text, onChange do not trigger
+
+=> add 'value' into Input
+
+<Input
+	defaultValue={editPhase.name}
+	value={editPhase.name}
+	onChange={handleInputChange}
+	className={'topnav-input' + (!editPhase.isValid ? ' topnav-control-error' : '')}
+/>
+
+https://stackoverflow.com/questions/64548202/react-input-change-not-firing-when-select-all-to-delete
